@@ -6,7 +6,7 @@ Example
 
     api.getValue("Code")
 
-### api.setValue(<attribute>,<value>)
+### api.setValue(attribute,value)
 Example
 
     api.getValue("Code","1234")
