@@ -1,6 +1,7 @@
 # Configure LDAP Authentication with DB Authentication
 Commands:
 
+    cmdbuild restws setconfig org.cmdbuild.auth.modules=default,ldap,saml,cas,oauth -username admin -password admin
     cmdbuild restws setconfig org.cmdbuild.auth.methods=LdapAuthenticator,DBAuthenticator -username admin -password admin
     cmdbuild restws setconfig org.cmdbuild.auth.ldap.server.address=<address>-username admin -password admin
     cmdbuild restws setconfig org.cmdbuild.auth.ldap.server.port=389 -username admin -password admin
