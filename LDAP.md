@@ -23,3 +23,21 @@ Reference: core/configdefs/src/main/java/org/cmdbuild/config/AuthConfigurationIm
   - username
   - email
   
+## Code - Reference
+CMDBUILD Uses Springframework for LDAP
+
+    org.springframework.ldap
+    git clone [https://github.com/spring-guides/gs-authenticating-ldap.git](https://github.com/spring-guides/gs-authenticating-ldap.git)
+    https://spring.io/guides/gs/authenticating-ldap/
+    https://spring.io/projects/spring-ldap
+
+FilesystemConfigRepository
+
+    /core/config/src/main/java/org/cmdbuild/config/service/FilesystemConfigRepositoryImpl.java
+
+Configuration
+
+    ui/app/model/administration/Configuration.js
+
+## Notes
+It appears that LDAP can only be enabled via SAML or CAS. When attempting to enable ldap usine org.cmdbuild.auth.modules=ldap cmdbuild application throws an unknown key exception.
