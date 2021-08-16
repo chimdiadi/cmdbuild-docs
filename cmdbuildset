@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -z $1 ]; then
+  echo "$0 cmd"
+  exit;
+fi
+
+/usr/bin/cmdbuild restws setconfig $1 -username admin -password admin
