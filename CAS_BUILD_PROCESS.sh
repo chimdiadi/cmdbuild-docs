@@ -54,25 +54,3 @@ git submodule update --init --recursive
 
 
 ./gradlew build install --parallel -x test -x javadoc -x check --build-cache --configure-on-demand
-
-cd build/
-./release.sh
-
-# ---- CAS config overlay ???? hold on this works and the build above doesn't work??
-git clone https://github.com/apereo/cas-configserver-overlay.git
-cd cas-configserver-overlay
-./build.sh
-./build.sh package
-./gradlew createKeystore
-
-
-# ---- TEST BUILD -----
-java -jar libs/app.war -Djava.util.logging.config.file=/opt/cas-server/conf/logging.properties  -Djboss.http.port=8091
-
-
-####### Access Test ######
-# username = casuser
-# password = _______
-#
-#
-
