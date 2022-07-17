@@ -132,8 +132,8 @@ Change the default org.cmdbuild.auth.module.saml.handlerScript from the default 
 |org.cmdbuild.auth.module.saml.sp.cert  | [cert from idprovider] |
 |org.cmdbuild.auth.module.saml.sp.key  |  [cmdb-https-priv-key] |
 |org.cmdbuild.auth.module.saml.idp.cert  | [cmdb-https-cert] |
-|org.cmdbuild.auth.module.saml.idp.id  | https://[idprovider]/metadata |
-|org.cmdbuild.auth.module.saml.idp.logout  | https://[ipd]/slo  |
+|org.cmdbuild.auth.module.saml.idp.id  | https://[idp]/metadata |
+|org.cmdbuild.auth.module.saml.idp.logout  | https://[idp]/slo  |
 |org.cmdbuild.auth.module.saml.idp.login  | https://[idp]/sso |
 |org.cmdbuild.auth.module.saml.logout.enable  | true |
 |org.cmdbuild.auth.module.saml.handlerscript  | login = auth.getAttribute(‘SamAccountName’) #[Match attribute name that is sent in SAML response] |
