@@ -34,7 +34,7 @@ View the Current active Auth Methods
 |API| Value |
 |--|--|
 |org.cmdbuild.auth.module.saml.sp.id|http://localhost:8080/cmdbuild|
-|org.cmdbuild.auth.module.saml.sp.baseUrl|  |
+|org.cmdbuild.auth.module.saml.sp.baseUrl|[http://localhost:8080/cmdbuild](http://localhost:8080/cmdbuild)|
 |org.cmdbuild.auth.module.saml.idp.id|https://saml-idp-test:9080/idp/shibboleth|
 |org.cmdbuild.auth.module.saml.idp.cert|pack18b4....cap|
 |org.cmdbuild.auth.module.saml.idp.login|http://saml-idp-test:9080/idp/profile/SAML2/Redirect/SSO|
@@ -97,6 +97,57 @@ http://localhost:8080/cmdbuild
 	    }
     }
 
+## Notes from cmdbuild.org
+Awesome! I just got mine working now too!!!
+
+### cmdbuild restws setconfig
+Change the default org.cmdbuild.auth.module.saml.handlerScript from the default oid value to what I was getting back in the SAML response ‘samAccountName’:
+
+`org.cmdbuild.auth.module.saml.handlerScript=login = auth.getAttribute('SamAccountName')`
+
+
+### IDP / SAML Configuration
+-   Secured the tomcat and cmdbuild instances with an ssl cert e.g. https.
+-   Connect the IDP to AD
+-   In the IDP Add a new Generic Application SSO protection for our cmdbuild. With the following needed info discovered from cmdb
+    -   Service Provider Entity ID = [MATCH WHAT YOU SET IN CMDBUILD CONFIG, I JUST USED BASE URL]
+    -   ACS URL = [YOUR CMDB BASE URL]/services/saml/SSO
+    -   (optional) Logout URL = [YOUR CMDB BASE URL]/services/saml/SingleLogout
+    -   (optional) Login URL = [YOUR CMDB BASE URL]/services/saml/Login
+    -   SAML NameID Format = urn:oasis:names:tc:SAML:2.0:nameid-format:persistent
+    -   SAML Response Name ID Attribute = <‘Username’>
+    -   SAML Response Mapping iDP <‘Username’> to SamAccountName
+
+###  Configuration Edit
+-   CMDBuild created user accounts with matching user names to our ad accounts samAccountName. 
+-  Set a generic strong password that will not be used, your saml identity provider will be checking against the actual source.
+-   CMDBuild editconfig. With the base variable of org.cmdbuild.auth.module.saml.* Unless noted otherwise:
+
+`cmdbuild restws setconfig org...`
+
+|API Variable| Value |
+|--|--|
+|org.cmdbuild.auth.module.saml.sp.baseUrl  | [baseurl] |
+|org.cmdbuild.auth.module.saml.sp.id  | [baseurl] |
+|org.cmdbuild.auth.module.saml.sp.cert  | [cert from idprovider] |
+|org.cmdbuild.auth.module.saml.sp.key  |  [cmdb-https-priv-key] |
+|org.cmdbuild.auth.module.saml.idp.cert  | [cmdb-https-cert] |
+|org.cmdbuild.auth.module.saml.idp.id  | https://[idprovider]/metadata |
+|org.cmdbuild.auth.module.saml.idp.logout  | https://[ipd]/slo  |
+|org.cmdbuild.auth.module.saml.idp.login  | https://[idp]/sso |
+|org.cmdbuild.auth.module.saml.logout.enable  | true |
+|org.cmdbuild.auth.module.saml.handlerscript  | login = auth.getAttribute(‘SamAccountName’) #[Match attribute name that is sent in SAML response] |
+|org.cmdbuld.auth.methods  | SamlAuthenticator, DBAuthenticator |
+|org.cmdbuild.auth.modules | default, saml |
+
+## Finishing Up
+-   Restart tomcat service after changes
+-   load login page and try the new login with saml button. (doesnt use the default login web form. Seems like critical info the manual should have)
+-   Get redirected to your custom IDP Generic SSO App Protection created above
+    -   Enter your AD login UPN that matches an already created account in CMDB
+    -   (optional) login new users have to enroll MFA
+    -   (optional) Approve your MFA option
+-   Get redirected back to your CMDB and your in if everything lines up
 
 ## Reference
 https://forum.cmdbuild.org/t/cmdbuild-3-3-2-saml2-authentication-how-to-enable/5188/8
