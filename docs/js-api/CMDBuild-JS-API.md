@@ -9,7 +9,7 @@ Example
 ### api.setValue(attribute,value)
 Example
 
-    api.getValue("Code","1234")
+    api.setValue("Code","1234")
     
 ### api.saveRecord()
 
